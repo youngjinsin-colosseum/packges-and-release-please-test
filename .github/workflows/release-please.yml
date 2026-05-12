@@ -1,0 +1,65 @@
+name: ( RELEASE ) Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: release-please
+  cancel-in-progress: false
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      version: ${{ steps.release.outputs.version }}
+      major: ${{ steps.release.outputs.major }}
+      minor: ${{ steps.release.outputs.minor }}
+      patch: ${{ steps.release.outputs.patch }}
+      pr: ${{ steps.release.outputs.pr }}
+    steps:
+      - name: Run release-please
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: Release Summary
+        if: steps.release.outputs.release_created == 'true'
+        run: |
+          {
+            echo "## 🎉 새로운 Release 생성 완료"
+            echo ""
+            echo "- **태그**: \`${{ steps.release.outputs.tag_name }}\`"
+            echo "- **버전**: \`${{ steps.release.outputs.version }}\`"
+            echo "- **시간**: $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M:%S KST')"
+            echo ""
+            echo "GitHub Packages에 배포하려면 아래 워크플로우 중 하나를 수동 실행하세요:"
+            echo ""
+            echo "- **( DEPLOY ) Libraries Publisher** — 전체 모듈 배포"
+            echo "- **( DEPLOY ) Library Publisher** — 단일 모듈 배포"
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: PR Summary
+        if: steps.release.outputs.pr != ''
+        run: |
+          PR_JSON='${{ steps.release.outputs.pr }}'
+          {
+            echo "## 📝 Release PR 업데이트됨"
+            echo ""
+            echo "Conventional Commits 기반으로 다음 Release PR이 갱신되었습니다."
+            echo "PR을 머지하면 태그/Release가 생성됩니다."
+            echo ""
+            echo '```json'
+            echo "${PR_JSON}"
+            echo '```'
+          } >> $GITHUB_STEP_SUMMARY
