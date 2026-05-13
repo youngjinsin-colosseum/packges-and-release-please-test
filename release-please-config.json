@@ -8,6 +8,7 @@
   "draft": false,
   "prerelease": false,
   "pull-request-header": ":robot: 자동 생성된 Release PR입니다.",
+  "pull-request-footer": ":mag: 검토후에 이상이 없으면 릴리즈해주세요.",
   "changelog-sections": [
     {
       "type": "feat",
@@ -20,14 +21,6 @@
     {
       "type": "perf",
       "section": "Performance Improvements"
-    },
-    {
-      "type": "revert",
-      "section": "Reverts"
-    },
-    {
-      "type": "deps",
-      "section": "Dependencies"
     },
     {
       "type": "refactor",
@@ -45,19 +38,12 @@
     },
     {
       "type": "chore",
-      "section": "Miscellaneous Chores"
+      "section": "Miscellaneous Chores",
+      "hidden": true
     },
     {
       "type": "test",
-      "section": "Tests"
-    },
-    {
-      "type": "build",
-      "section": "Build System"
-    },
-    {
-      "type": "ci",
-      "section": "Continuous Integration",
+      "section": "Tests",
       "hidden": true
     }
   ],
