@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/youngjinsin-colosseum/packges-and-release-please-test/compare/v1.0.1...v1.1.0) (2026-05-13)
+
+
+### Features
+
+* minor version up ([8467b57](https://github.com/youngjinsin-colosseum/packges-and-release-please-test/commit/8467b575a90299fb8bed6c4821544020000db025))
+
 ## [1.0.1](https://github.com/youngjinsin-colosseum/packges-and-release-please-test/compare/v1.0.0...v1.0.1) (2026-05-13)
 
 
