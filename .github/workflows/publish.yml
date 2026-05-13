@@ -1,0 +1,59 @@
+name: ( DEPLOY ) Libraries Publisher
+
+on:
+  release:
+    types: [ published ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "tag (ex. v1.1.2)"
+        required: true
+
+concurrency:
+  group: library-publish
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: corretto
+          java-version: 8
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: wrapper
+
+      - name: Publish All Libraries to GitHub Packages
+        env:
+          GPR_USER: x-access-token
+          GPR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publish
+
+      - name: Create Release Summary
+        if: success()
+        run: |
+          VERSION=$(grep -E '^\s*version\s*=' gradle.properties | sed -E 's/^\s*version\s*=\s*//' | tr -d ' ')
+          {
+            echo "## 라이브러리 배포 완료 🚀"
+            echo ""
+            echo "- **버전**: \`${VERSION}\`"
+            echo "- **모듈**:"
+            echo "  - sample-domain"
+            echo "- **배포자**: ${{ github.actor }}"
+            echo "- **시간**: $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M:%S KST')"
+            echo "- **커밋**: ${{ github.sha }}"
+          } >> $GITHUB_STEP_SUMMARY
