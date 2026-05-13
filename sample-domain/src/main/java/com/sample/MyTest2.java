@@ -7,7 +7,7 @@ package com.sample;
 public class MyTest2 {
 
     public void hi() {
-        System.out.println("hi");
+        System.out.println("hi fixed");
     }
 
 }
