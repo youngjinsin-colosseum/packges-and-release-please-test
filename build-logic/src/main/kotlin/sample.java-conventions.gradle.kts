@@ -10,8 +10,8 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(8))
     }
-    withJavadocJar()
     withSourcesJar()
+    withJavadocJar()
 }
 
 tasks.withType<Test>().configureEach {
@@ -24,7 +24,6 @@ tasks.withType<Javadoc>().configureEach {
         charSet = "UTF-8"
         docEncoding = "UTF-8"
         locale = "ko_KR"
-
         addBooleanOption("Xdoclint:none", true)
     }
 }

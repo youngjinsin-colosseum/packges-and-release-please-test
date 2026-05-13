@@ -1,9 +1,7 @@
 plugins {
-    id("sample.library-conventions")
-    id("sample.publishing-conventions")
+    id("sample.java-conventions")
+    id("sample.publish-conventions")
 }
-
-description = "Sample 1.0 Domain Module"
 
 dependencies {
 }

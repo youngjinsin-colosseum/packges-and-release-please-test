@@ -1,4 +1,4 @@
-name: ( Publish ) Publish Libraries
+name: ( Pages ) Publish Javadoc
 
 on:
   workflow_call:
@@ -14,12 +14,18 @@ on:
         required: true
         type: string
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
-  publish:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -37,21 +43,36 @@ jobs:
         with:
           gradle-version: wrapper
 
-      - name: Publish All Libraries to GitHub Packages
-        env:
-          GPR_USER: x-access-token
-          GPR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew publish
+      - name: Aggregate Javadoc
+        run: ./gradlew aggregateJavadoc
 
-      - name: Create Release Summary
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/docs/aggregateJavadoc
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Create Pages Summary
         if: success()
         run: |
-          VERSION=$(grep -E '^\s*version\s*=' gradle.properties | sed -E 's/^\s*version\s*=\s*//' | tr -d ' ')
           {
-            echo "## 라이브러리 배포 완료 🚀"
+            echo "## Javadoc 배포 완료 📘"
             echo ""
             echo "- **태그**: \`${{ inputs.tag }}\`"
-            echo "- **버전**: \`${VERSION}\`"
+            echo "- **URL**: ${{ steps.deployment.outputs.page_url }}"
             echo "- **배포자**: ${{ github.actor }}"
             echo "- **시간**: $(TZ='Asia/Seoul' date +'%Y-%m-%d %H:%M:%S KST')"
             echo "- **커밋**: ${{ github.sha }}"
