@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.5](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/compare/v1.2.4...v1.2.5) (2026-05-13)
+
+
+### Bug Fixes
+
+* MyTest 클래스명 버그 수정 ([3145b31](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/commit/3145b311eb968b9990c6110131e742d017e29204))
+
 ## [1.2.4](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/compare/v1.2.3...v1.2.4) (2026-05-13)
 
 
