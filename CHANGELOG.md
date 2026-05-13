@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.5](https://github.com/youngjinsin-colosseum/packges-and-release-please-test/compare/v0.0.4...v0.0.5) (2026-05-13)
+
+
+### Miscellaneous Chores
+
+* 정리 ([6b0ffef](https://github.com/youngjinsin-colosseum/packges-and-release-please-test/commit/6b0ffef872d590bc1682ea46c8139a1322684ca2))
+
 ## [0.0.4](https://github.com/youngjinsin-colosseum/packges-and-release-please-test/compare/v0.0.3...v0.0.4) (2026-05-13)
 
 
