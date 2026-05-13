@@ -1,19 +1,25 @@
-name: ( DEPLOY ) Libraries Publisher
+name: ( Publish ) Publish Libraries
 
 on:
+  workflow_call:
+    inputs:
+      tag:
+        description: "tag (ex. v1.1.2)"
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       tag:
-        description: "재배포할 tag (ex. v1.1.2)"
+        description: "tag (ex. v1.1.2)"
         required: true
-
-permissions:
-  contents: read
-  packages: write
+        type: string
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -42,7 +48,7 @@ jobs:
         run: |
           VERSION=$(grep -E '^\s*version\s*=' gradle.properties | sed -E 's/^\s*version\s*=\s*//' | tr -d ' ')
           {
-            echo "## 라이브러리 수동 재배포 완료 🚀"
+            echo "## 라이브러리 배포 완료 🚀"
             echo ""
             echo "- **태그**: \`${{ inputs.tag }}\`"
             echo "- **버전**: \`${VERSION}\`"
