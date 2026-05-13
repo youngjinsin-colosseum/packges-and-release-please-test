@@ -9,7 +9,6 @@
   "bump-patch-for-minor-pre-major": true,
   "draft": false,
   "prerelease": false,
-  "pull-request-title-pattern": "chore${scope}: release ${version}",
   "pull-request-header": ":robot: 자동 생성된 Release PR입니다.",
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
