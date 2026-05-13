@@ -7,7 +7,6 @@
   "separate-pull-requests": false,
   "draft": false,
   "prerelease": false,
-  "pull-request-title-pattern": "chore${scope}: release${component} ${version}",
   "pull-request-header": ":robot: 자동 생성된 Release PR입니다.",
   "changelog-sections": [
     { "type": "feat", "section": "Features" },
