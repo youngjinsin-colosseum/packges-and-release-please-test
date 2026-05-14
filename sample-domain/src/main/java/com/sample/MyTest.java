@@ -6,8 +6,4 @@ package com.sample;
  */
 public class MyTest {
 
-    public void hi() {
-        System.out.println("hi");
-    }
-
 }
