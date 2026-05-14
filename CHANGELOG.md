@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.4.0](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/compare/v1.3.0...v1.4.0) (2026-05-14)
+
+
+### Features
+
+* hihi ([3e978bc](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/commit/3e978bc41750c6c3578bfc0598da370c4b3236e3))
+* hihi2 ([3e978bc](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/commit/3e978bc41750c6c3578bfc0598da370c4b3236e3))
+
+
+### Bug Fixes
+
+* hihi3 ([3e978bc](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/commit/3e978bc41750c6c3578bfc0598da370c4b3236e3))
+
+
+### Code Refactoring
+
+* hihi4 ([3e978bc](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/commit/3e978bc41750c6c3578bfc0598da370c4b3236e3))
+
 ## [1.3.0](https://github.com/youngjinsin-colosseum/packages-and-release-please-test/compare/v1.2.6...v1.3.0) (2026-05-13)
 
 
