@@ -53,7 +53,6 @@ jobs:
       - name: PR Summary
         if: steps.release.outputs.pr != ''
         run: |
-          PR_JSON='${{ steps.release.outputs.pr }}'
           {
             echo "## 📝 Release PR 업데이트됨"
             echo ""
@@ -85,14 +84,34 @@ jobs:
       packages: write
     secrets: inherit
 
-  javadoc:
-    needs: release-please
+  label-published:
+    needs: [release-please, publish]
     if: needs.release-please.outputs.release_created == 'true'
-    uses: ./.github/workflows/pages.yml
-    with:
-      tag: ${{ needs.release-please.outputs.tag_name }}
+    runs-on: ubuntu-latest
     permissions:
-      contents: read
-      pages: write
-      id-token: write
-    secrets: inherit
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Add auto-release:published label to release PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          SHA: ${{ github.sha }}
+        run: |
+          PR_NUMBER=$(gh api "/repos/${REPO}/commits/${SHA}/pulls" --jq '.[0].number')
+          if [ -z "$PR_NUMBER" ] || [ "$PR_NUMBER" = "null" ]; then
+            echo "::warning::No PR found for commit ${SHA}"
+            exit 0
+          fi
+          gh label create "auto-release: published" \
+            --color "0E8A16" \
+            --description "Release auto-published" \
+            --repo "${REPO}" 2>/dev/null || true
+          gh pr edit "$PR_NUMBER" --add-label "auto-release: published" --repo "${REPO}"
+          {
+            echo "## 🏷️ Release PR 라벨 추가됨"
+            echo ""
+            echo "- **PR**: #${PR_NUMBER}"
+            echo "- **라벨**: \`auto-release: published\`"
+            echo ""
+          } >> $GITHUB_STEP_SUMMARY
