@@ -54,7 +54,10 @@ jobs:
         if: steps.release.outputs.release_created == 'true' && steps.release.outputs.pr != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr merge ${{ steps.release.outputs.pr }} --auto --merge
+          PR_JSON: ${{ steps.release.outputs.pr }}
+        run: |
+          PR_NUMBER=$(echo "$PR_JSON" | jq '.number')
+          gh pr merge "$PR_NUMBER" --auto --merge
 
       - name: PR Summary
         if: steps.release.outputs.pr != ''
