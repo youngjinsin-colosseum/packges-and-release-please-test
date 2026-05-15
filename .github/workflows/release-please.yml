@@ -57,7 +57,7 @@ jobs:
           PR_JSON: ${{ steps.release.outputs.pr }}
         run: |
           PR_NUMBER=$(echo "$PR_JSON" | jq '.number')
-          gh pr merge "$PR_NUMBER" --auto --merge --repo ${{ github.repository }}
+          gh pr merge "$PR_NUMBER" --auto --squash --repo ${{ github.repository }}
 
       - name: PR Summary
         if: steps.release.outputs.pr != ''
